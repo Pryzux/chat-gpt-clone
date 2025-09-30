@@ -4,4 +4,5 @@ export default [
   index("routes/home.tsx"),
   route("routes/mainPage", 'routes/mainPage.tsx'),
   route("api/auth/*", "routes/auth-handler.ts"),
+  route("routes/chat", "routes/chat.tsx"),
 ] satisfies RouteConfig;

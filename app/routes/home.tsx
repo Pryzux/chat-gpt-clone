@@ -19,7 +19,8 @@ export default function Home() {
 
 
   // Route to mainPage.tsx??
-  if (data) { return <Navigate to="routes/mainPage" replace /> }
+  // if (data) { return <Navigate to="routes/mainPage" replace /> }
+  if (data) { return <Navigate to="routes/chat" replace /> }
 
   //Loading
   else if (isPending) { return <div>Signing In..</div> }
