@@ -7,7 +7,11 @@ import { auth } from '../../auth.server' // Adjust the path as necessary
 import { authClient } from '../../auth-client'
 import type { Route } from "./+types/chat";
 
-// /Users/jared/repos/chat-gpt-clone/app/routes/mainPage.tsx
+import { Input } from "../components/ui/input";
+import { Textarea } from "../components/ui/textarea"
+import { ScrollArea } from "../components/ui/scroll-area"
+
+
 
 export async function loader({ request }: LoaderFunctionArgs) {
 
@@ -25,12 +29,8 @@ export async function action({ request }: ActionFunctionArgs) {
 
 export default function Chat({ loaderData }: Route.ComponentProps) {
 
+    // redirect to home if session expires
     const { data, isPending, error } = authClient.useSession()
-
-
-
-    //Loading
-
 
     const [input, setInput] = useState('');
     const { messages, sendMessage } = useChat();
@@ -38,33 +38,31 @@ export default function Chat({ loaderData }: Route.ComponentProps) {
     if (data) {
 
         return (
+
             <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
+
                 {messages.map(message => (
+                    // message blocks
                     <div key={message.id} className="whitespace-pre-wrap">
                         {message.role === 'user' ? 'User: ' : 'AI: '}
                         {message.parts.map((part, i) => {
                             switch (part.type) {
                                 case 'text':
-                                    return <div className="text-amber-300" key={`${message.id}-${i}`}>{part.text}</div>;
+                                    return <div key={`${message.id}-${i}`}>{part.text}</div>;
                             }
                         })}
                     </div>
                 ))}
 
-                <form
-                    onSubmit={e => {
-                        e.preventDefault();
-                        sendMessage({ text: input });
-                        setInput('');
-                    }}
-                >
-                    <input
-                        className="fixed dark:bg-zinc-900 bottom-0 w-full max-w-md p-2 mb-8 border border-zinc-300 dark:border-zinc-800 rounded shadow-xl"
+                <form onSubmit={e => { e.preventDefault(); sendMessage({ text: input }); setInput(''); }}>
+                    <Input
+                        className="fixed bottom-5 w-full max-w-md p-2 mb-8"
                         value={input}
                         placeholder="Say something..."
                         onChange={e => setInput(e.currentTarget.value)}
                     />
                 </form>
+
             </div>
         );
 
