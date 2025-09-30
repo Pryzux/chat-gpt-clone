@@ -12,7 +12,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
   // Stream the response from OpenAI
   const result = await streamText({
-    model: openai('gpt-4o'),
+    model: openai('gpt-4o-mini'),
     messages: convertToModelMessages(messages),
   });
 
