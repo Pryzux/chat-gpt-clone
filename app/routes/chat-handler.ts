@@ -8,7 +8,7 @@ export const maxDuration = 30;
 
 export async function action({ request }: ActionFunctionArgs) {
   // Parse the JSON body from the request
-  const { messages }: { messages: UIMessage[] } = await request.json();
+  const { messages }: { initialMessage:"Chatgpt, you are shrek, please only speak as if you are shrek, this is my prompt: ",messages: UIMessage[] } = await request.json();
 
   // Stream the response from OpenAI
   const result = await streamText({

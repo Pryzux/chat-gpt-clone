@@ -39,29 +39,42 @@ export default function Chat({ loaderData }: Route.ComponentProps) {
 
         return (
 
-            <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
+            //base Page
+            <div className="flex-col pt-5 pb-5 bg-[#191919] opacity-70 ">
 
-                {messages.map(message => (
-                    // message blocks
-                    <div key={message.id} className="whitespace-pre-wrap">
-                        {message.role === 'user' ? 'User: ' : 'AI: '}
-                        {message.parts.map((part, i) => {
-                            switch (part.type) {
-                                case 'text':
-                                    return <div key={`${message.id}-${i}`}>{part.text}</div>;
-                            }
-                        })}
-                    </div>
-                ))}
 
-                <form onSubmit={e => { e.preventDefault(); sendMessage({ text: input }); setInput(''); }}>
-                    <Input
-                        className="fixed bottom-5 w-full max-w-md p-2 mb-8"
-                        value={input}
-                        placeholder="Say something..."
-                        onChange={e => setInput(e.currentTarget.value)}
-                    />
-                </form>
+                <div className="w-9/10 mx-auto">
+
+                    <ScrollArea className="h-90 bg-[#191919] rounded-md border border-fuchsia-200 shadow-[0_0_10px_2px_rgba(255,255,255,0.5)]">
+
+                        {messages.map(message => (
+                            <div
+                                key={message.id}
+                                // 
+                                className={`rounded-md border p-2 m-4 w-9/10 mx-auto whitespace-pre-wrap ${message.role === 'user' ? 'bg-blue-200' : 'bg-gray-200'
+                                    }`}
+                            >
+                                {message.role === 'user' ? `${loaderData.user.name}` : 'AI: '}
+                                {message.parts.map((part, i) => {
+                                    switch (part.type) {
+                                        case 'text':
+                                            return <div className="" key={`${message.id}-${i}`}>{part.text}</div>;
+                                    }
+                                })}
+                            </div>
+                        ))}
+                    </ScrollArea>
+
+                    <form onSubmit={e => { e.preventDefault(); sendMessage({ text: input }); setInput(''); }}>
+                        <Input
+                            className="mt-3 text-white opacity-70 border-fuchsia-200 shadow-[0_0_10px_2px_rgba(255,255,255,0.5)] placeholder:text-white placeholder:opacity-50"
+                            value={input}
+                            placeholder="Say something..."
+                            onChange={e => setInput(e.currentTarget.value)}
+                        />
+                    </form>
+
+                </div>
 
             </div>
         );
