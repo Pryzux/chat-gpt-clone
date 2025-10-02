@@ -9,15 +9,18 @@ import type { Route } from "./+types/chat";
 import { Input } from "../components/ui/input";
 import { ScrollArea } from "../components/ui/scroll-area"
 
+// 👇 import your breathing visualizer
+
 
 export async function loader({ request }: LoaderFunctionArgs) {
-
     const session = await auth.api.getSession({ headers: request.headers })
 
     if (session?.user) {
         return {
             user: session.user,
-            initialGreeting: `Please introduce yourself to ${session.user.name} as a compassionate therapist. Your name is Greg.`
+            initialGreeting: `Please introduce yourself to ${session.user.name} as a compassionate therapist. 
+            Your name is Greg. If the user says they are stressed, anxious, or overwhelmed, 
+            you should call the breathing_exercise tool instead of replying with text.`,
         }
     }
     else { throw redirect("/") }
@@ -27,9 +30,7 @@ export async function action({ request }: ActionFunctionArgs) {
     return auth.handler(request)
 }
 
-
 function useInitialMessage(sendMessage: (msg: { text: string }) => void, messages: any[], greeting: string) {
-
     const hasSentRef = useRef(false);
 
     useEffect(() => {
@@ -40,9 +41,7 @@ function useInitialMessage(sendMessage: (msg: { text: string }) => void, message
     }, [greeting, messages, sendMessage]);
 }
 
-
 export default function Chat({ loaderData }: Route.ComponentProps) {
-
     const bubbles = (role: string) => {
         const base =
             "relative max-w-[75%] mb-3 ml-6 mr-6 px-4 py-2 rounded-2xl border shadow-md whitespace-pre-wrap";
@@ -51,7 +50,6 @@ export default function Chat({ loaderData }: Route.ComponentProps) {
         }
         return `${base} bg-blue-100 border-blue-200 text-blue-900 self-end ml-auto rounded-br-none`;
     }
-
 
     const { data, isPending } = authClient.useSession()
     const [input, setInput] = useState('');
@@ -69,14 +67,24 @@ export default function Chat({ loaderData }: Route.ComponentProps) {
                                 <span className="font-semibold">
                                     {message.role === "user" ? loaderData.user.name : "AI"}:
                                 </span>
-                                {message.parts.map(
-                                    (part, i) =>
-                                        part.type === "text" && (
-                                            <div key={`${message.id}-${i}`} className="leading-relaxed">
-                                                {part.text}
-                                            </div>
-                                        )
-                                )}
+                                {message.parts.map((part, i) => {
+
+                                    if (part.type === "text") {
+                                        return (
+                                            <div key={`${message.id}-${i}`} className="leading-relaxed">{part.text}</div>
+                                        );
+                                    }
+
+                                    // Tool call: breathing exercise finally found out that i don't need to pass anything and each message has it's own data associated that says when a tool was called, handy once you know about it.. 
+                                    if (part.type === "tool-breathing_exercise") {
+                                        const output = (part as any).output as { message?: string };
+                                        return (
+                                            <div key={i} className="text-blue-700 font-semibold">{output?.message} </div>
+                                        );
+                                    }
+
+                                    return null;
+                                })}
                             </div>
                         ))}
                     </ScrollArea>
@@ -105,4 +113,5 @@ export default function Chat({ loaderData }: Route.ComponentProps) {
         return <Navigate to="routes/home" replace />
     }
 }
+
 
