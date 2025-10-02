@@ -30,6 +30,7 @@ export default function Home() {
 
     return (
 
+
       <div className=" bg-amber-50 flex h-screen">
         <div className="flex flex-col flex-1">
           <div className="flex-1 flex items-center justify-center pt-10 pl-70  text-6xl font-bold [text-shadow:_4px_4px_8px_rgba(0,0,0,0.3)] opacity-90">

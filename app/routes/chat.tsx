@@ -1,4 +1,3 @@
-'use client';
 import { Navigate } from "react-router"
 import { useChat } from '@ai-sdk/react';
 import { useState, useEffect, useRef } from 'react';
@@ -8,8 +7,8 @@ import { authClient } from '../../auth-client'
 import type { Route } from "./+types/chat";
 import { Input } from "../components/ui/input";
 import { ScrollArea } from "../components/ui/scroll-area"
-
-// 👇 import your breathing visualizer
+import BreathingVisualizer from "non-route/breathingVisualizer";
+import { z } from "zod";
 
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -18,9 +17,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
     if (session?.user) {
         return {
             user: session.user,
-            initialGreeting: `Please introduce yourself to ${session.user.name} as a compassionate therapist. 
-            Your name is Greg. If the user says they are stressed, anxious, or overwhelmed, 
-            you should call the breathing_exercise tool instead of replying with text.`,
+            initialGreeting: `Please introduce yourself to ${session.user.name} as a compassionate but manic therapist named Greg. 
+                                Your Manic level starts at 3 and moves up or down depending on what the user says to you and how that influences your (Greg) mood.`
         }
     }
     else { throw redirect("/") }
@@ -42,6 +40,7 @@ function useInitialMessage(sendMessage: (msg: { text: string }) => void, message
 }
 
 export default function Chat({ loaderData }: Route.ComponentProps) {
+
     const bubbles = (role: string) => {
         const base =
             "relative max-w-[75%] mb-3 ml-6 mr-6 px-4 py-2 rounded-2xl border shadow-md whitespace-pre-wrap";
@@ -79,7 +78,35 @@ export default function Chat({ loaderData }: Route.ComponentProps) {
                                     if (part.type === "tool-breathing_exercise") {
                                         const output = (part as any).output as { message?: string };
                                         return (
-                                            <div key={i} className="text-blue-700 font-semibold">{output?.message} </div>
+                                            <div>
+                                                <div key={i} className="text-blue-700 font-semibold">{output?.message}
+
+                                                </div>
+                                                <BreathingVisualizer />
+                                            </div>
+                                        );
+                                    }
+
+                                    if (part.type === "tool-calmed_down") {
+                                        const output = (part as any).output as { message?: string };
+                                        return (
+                                            <div>
+                                                <div key={i} className="text-green-700 font-semibold">{output?.message}
+
+                                                </div>
+
+                                            </div>
+                                        );
+                                    }
+
+                                    if (part.type === "tool-manic") {
+                                        const output = (part as any).output as { message?: string };
+                                        return (
+                                            <div>
+                                                <div key={i} className="text-red-700 font-semibold">{output?.message}
+
+                                                </div>
+                                            </div>
                                         );
                                     }
 
