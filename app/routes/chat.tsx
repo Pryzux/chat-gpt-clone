@@ -1,31 +1,45 @@
 'use client';
 import { Navigate } from "react-router"
 import { useChat } from '@ai-sdk/react';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { redirect, type ActionFunctionArgs, type LoaderFunctionArgs } from 'react-router'
-import { auth } from '../../auth.server' // Adjust the path as necessary
+import { auth } from '../../auth.server'
 import { authClient } from '../../auth-client'
 import type { Route } from "./+types/chat";
-
 import { Input } from "../components/ui/input";
-import { Textarea } from "../components/ui/textarea"
 import { ScrollArea } from "../components/ui/scroll-area"
-
 
 
 export async function loader({ request }: LoaderFunctionArgs) {
 
     const session = await auth.api.getSession({ headers: request.headers })
+
     if (session?.user) {
-        return { user: session.user }
-    } else {
-        throw redirect("/")
+        return {
+            user: session.user,
+            initialGreeting: `Please introduce yourself to ${session.user.name} as a compassionate therapist. Your name is Greg.`
+        }
     }
+    else { throw redirect("/") }
 }
 
 export async function action({ request }: ActionFunctionArgs) {
     return auth.handler(request)
 }
+
+
+function useInitialMessage(sendMessage: (msg: { text: string }) => void, messages: any[], greeting: string) {
+
+    const hasSentRef = useRef(false);
+
+    useEffect(() => {
+        if (!hasSentRef.current && messages.length === 0) {
+            sendMessage({ text: greeting });
+            hasSentRef.current = true;
+        }
+    }, [greeting, messages, sendMessage]);
+}
+
 
 export default function Chat({ loaderData }: Route.ComponentProps) {
 
@@ -38,19 +52,19 @@ export default function Chat({ loaderData }: Route.ComponentProps) {
         return `${base} bg-blue-100 border-blue-200 text-blue-900 self-end ml-auto rounded-br-none`;
     }
 
-    // redirect to home if session expires
-    const { data, isPending, error } = authClient.useSession()
 
+    const { data, isPending } = authClient.useSession()
     const [input, setInput] = useState('');
     const { messages, sendMessage } = useChat();
 
-    if (data) {
+    useInitialMessage(sendMessage, messages, loaderData.initialGreeting);
 
+    if (data) {
         return (
             <div className="flex-col pt-5 pb-5 bg-amber-50 h-screen">
                 <div className="w-9/10 mx-auto pt-10">
                     <ScrollArea className="h-165 bg-amber-100 rounded-md border border-amber-300 shadow-md p-4">
-                        {messages.map((message) => (
+                        {messages.slice(1).map((message) => (
                             <div key={message.id} className={bubbles(message.role)}>
                                 <span className="font-semibold">
                                     {message.role === "user" ? loaderData.user.name : "AI"}:
@@ -68,7 +82,13 @@ export default function Chat({ loaderData }: Route.ComponentProps) {
                     </ScrollArea>
 
                     <form
-                        onSubmit={(e) => { e.preventDefault(); sendMessage({ text: input }); setInput("") }}>
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            if (input.trim()) {
+                                sendMessage({ text: input });
+                                setInput("");
+                            }
+                        }}>
                         <Input
                             className="mt-3 text-amber-900 bg-white border-amber-300 rounded-md shadow-sm placeholder:text-amber-400 placeholder:opacity-70"
                             value={input}
@@ -79,19 +99,10 @@ export default function Chat({ loaderData }: Route.ComponentProps) {
                 </div>
             </div>
         );
+    } else if (isPending) {
+        return <div>Authenticating..</div>
+    } else {
+        return <Navigate to="routes/home" replace />
+    }
+}
 
-
-
-
-
-
-
-
-
-    } // end data (auth check)
-
-    else if (isPending) { return <div>Authenticating..</div> }
-
-    else { return <Navigate to="routes/home" replace /> }
-
-}// end chat

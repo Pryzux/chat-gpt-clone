@@ -47,7 +47,7 @@ export default function Home() {
           <div className="h-1/3 flex items-center justify-center overflow-hidden">
             <img
               className="w-full h-full object-fill pl-50 pr-90 pt-10"
-              src="./public/speech-therapy.png"
+              src="./speech-therapy.png"
               alt="Descriptive alt text"
             />
           </div>
