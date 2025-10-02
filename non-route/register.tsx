@@ -2,6 +2,8 @@
 import { authClient } from "../auth-client"
 import { Form } from "react-router"
 import { useState } from "react"
+import { Input } from "~/components/ui/input"
+import { Button } from "~/components/ui/button"
 
 
 
@@ -37,15 +39,21 @@ export default function Register() {
 
     return (
 
-        <div>
-            <h2>Register</h2>
+
+
+        <div className="w-3/10 mx-auto">
+            <h2 className="flex justify-center">Sign up today!</h2>
             <Form onSubmit={signUp}>
-                <input type="email" className="border" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <input type="password" className="border" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <input type="text" className="border" value={name} onChange={(e) => setName(e.target.value)} />
-                <button type="submit" className="border">Register</button>
+                <Input placeholder="Email" type="email" className="m-1" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <Input placeholder="Password" type="password" className="m-1" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <Input placeholder="Name" type="text" className="m-1" value={name} onChange={(e) => setName(e.target.value)} />
+                <div className="flex justify-center p-3">
+                    <Button type="submit" className="border">Register</Button>
+                </div>
             </Form>
         </div>
+
+
 
 
     )
