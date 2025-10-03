@@ -3,6 +3,7 @@ import { authClient } from "../../auth-client"
 import { Navigate } from "react-router"
 import SignIn from "non-route/signIn";
 import Register from "non-route/register";
+import LoadingPage from "non-route/loading-page";
 
 
 export function meta({ }: Route.MetaArgs) {
@@ -20,7 +21,7 @@ export default function Home() {
   if (data) { return <Navigate to="/chat" replace /> }
 
   //Loading
-  else if (isPending) { return <div>Signing In..</div> }
+  else if (isPending) { return <LoadingPage /> }
 
   // Route to Home Screen No Authentication
   else {

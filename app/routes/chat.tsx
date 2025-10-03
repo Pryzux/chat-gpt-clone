@@ -10,6 +10,7 @@ import { Input } from "../components/ui/input";
 import { ScrollArea } from "../components/ui/scroll-area";
 import BreathingVisualizer from "non-route/breathingVisualizer";
 import { getChat } from "~/db/db.server";
+import LoadingPage from "non-route/loading-page";
 
 
 
@@ -144,13 +145,13 @@ export default function Chat({ loaderData }: Route.ComponentProps) {
 
     else if (isPending) {
         //would like to add styling stuff here
-        return <div>Authenticating..</div>;
+        return <LoadingPage />;
 
     }
 
     else {
 
-        return <Navigate to="routes/home" replace />;
+        return <Navigate to="/" replace />;
     }
 
 }

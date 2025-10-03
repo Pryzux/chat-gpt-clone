@@ -11,16 +11,16 @@ const openai = createOpenAI({
 
 export async function action({ request }: ActionFunctionArgs) {
     const session = await auth.api.getSession({ headers: request.headers });
-    if (!session?.user) throw redirect("/");
+    if (!session?.user) throw redirect("/")
 
-    const chatId = crypto.randomUUID();
+    const chatId = crypto.randomUUID()
 
     // Generate Greg’s intro message
     const result = await generateText({
         model: openai("gpt-4o-mini"),
         system: `You are Greg, a manic therapist...`,
         prompt: `Introduce yourself to ${session.user.name} in character.`,
-    });
+    })
 
     await saveChat({
         id: chatId,
@@ -32,8 +32,8 @@ export async function action({ request }: ActionFunctionArgs) {
                 parts: [{ type: "text", text: result.text }],
             },
         ],
-    });
+    })
 
-    return redirect(`/chat/${chatId}`);
+    return redirect(`/chat/${chatId}`)
 }
 
