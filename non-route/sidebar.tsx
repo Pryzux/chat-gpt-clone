@@ -1,5 +1,6 @@
 import { NavLink } from "react-router";
 import { NewChatButton } from "./new-chat-button";
+import { LogOutButton } from "./logoutButton";
 
 
 export default function Sidebar({ chats }: { chats: string[] }) {
@@ -27,8 +28,9 @@ export default function Sidebar({ chats }: { chats: string[] }) {
                 </ul>
             </nav>
 
-            <div className="p-4 border-t">
+            <div className="p-4 border-t space-y-2">
                 <NewChatButton />
+                <LogOutButton />
             </div>
         </aside>
     );

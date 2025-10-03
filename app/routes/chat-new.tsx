@@ -7,7 +7,7 @@ import { auth } from "auth.server";
 
 const openai = createOpenAI({
     apiKey: process.env.OPENAI_API_KEY!,
-});
+})
 
 export async function action({ request }: ActionFunctionArgs) {
     const session = await auth.api.getSession({ headers: request.headers });
