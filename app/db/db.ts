@@ -1,8 +1,11 @@
+// db.ts
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import * as schema from "./auth-schema";
 
-// Ensure DATABASE_URL is defined
+// import all schema files you want Drizzle to know about
+import * as authSchema from "./auth-schema";
+import * as chatSchema from "./schema";
+
 const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
@@ -10,4 +13,6 @@ if (!connectionString) {
 }
 
 const client = postgres(connectionString);
-export const db = drizzle(client, { schema });
+
+// merge schemas together so drizzle knows about all tables
+export const db = drizzle(client, { schema: { ...authSchema, ...chatSchema } });

@@ -1,24 +1,36 @@
-import { openai } from '@ai-sdk/openai';
-import { streamText, convertToModelMessages } from 'ai';
-import type { UIMessage } from 'ai';
-import type { ActionFunctionArgs } from 'react-router';
-import { breathingExerciseTool, CalmedDown, Psychosis } from 'tools';
+import { createOpenAI } from "@ai-sdk/openai";
+import { streamText, convertToModelMessages, type UIMessage, createIdGenerator } from "ai";
+import type { ActionFunctionArgs } from "react-router";
+import { auth } from "../../auth.server";
+import { saveChat } from "~/db/db.server";
 
-export const maxDuration = 30;
+
+
+const openai = createOpenAI({
+  apiKey: process.env.OPENAI_API_KEY!,
+});
 
 export async function action({ request }: ActionFunctionArgs) {
-  const { messages }: { messages: UIMessage[] } = await request.json();
+  
+  const session = await auth.api.getSession({ headers: request.headers });
+  if (!session?.user) throw new Response("Unauthorized", { status: 401 });
 
-  const result = await streamText({
-    model: openai('gpt-4o-mini'),
+  const { id, messages }: { id: string; messages: UIMessage[] } = await request.json();
+
+  const result = streamText({
+    model: openai("gpt-4o-mini"),
     messages: convertToModelMessages(messages),
-    tools: {
-      breathing_exercise: breathingExerciseTool,
-      calmed_down : CalmedDown,
-      manic: Psychosis
-    }
   });
 
-  return result.toUIMessageStreamResponse();
+  return result.toUIMessageStreamResponse({
+    generateMessageId: createIdGenerator({ prefix: "msg", size: 16 }),
+    onFinish: (data) => {
+      saveChat({
+        id,
+        userId: session.user.id,
+        messages: [...messages, ...data.messages],
+      });
+    },
+  });
 }
 
