@@ -50,9 +50,6 @@ export default function Register() {
             </Form>
         </div>
 
-
-
-
     )
 
 

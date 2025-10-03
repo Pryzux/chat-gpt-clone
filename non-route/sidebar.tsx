@@ -10,7 +10,7 @@ export default function Sidebar({ chats }: { chats: string[] }) {
 
             <nav className="flex-1 overflow-y-auto">
                 <ul className="space-y-1 p-2">
-                    {chats.map((id) => (
+                    {chats.map((id, index) => (
                         <li key={id}>
                             <NavLink
                                 to={id}
@@ -21,10 +21,11 @@ export default function Sidebar({ chats }: { chats: string[] }) {
                                     }`
                                 }
                             >
-                                Chat {id.slice(0, 6)}…
+                                Chat {index + 1}
                             </NavLink>
                         </li>
                     ))}
+
                 </ul>
             </nav>
 
