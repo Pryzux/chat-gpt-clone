@@ -7,6 +7,7 @@ export default [
 
   // Chat section with sidebar + nested routes
   route("chat", "routes/chat-layout.tsx", [
+    index("routes/chat-welcome.tsx"), 
     route(":id", "routes/chat.tsx"),
     route("new", "routes/chat-new.tsx"),
   ]),
