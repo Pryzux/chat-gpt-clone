@@ -14,5 +14,4 @@ if (!connectionString) {
 
 const client = postgres(connectionString);
 
-// merge schemas together so drizzle knows about all tables
 export const db = drizzle(client, { schema: { ...authSchema, ...chatSchema } });

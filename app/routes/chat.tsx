@@ -1,5 +1,4 @@
 "use client";
-
 import { Navigate } from "react-router";
 import { useChat } from "@ai-sdk/react";
 import { useState } from "react";
@@ -14,21 +13,29 @@ import { getChat } from "~/db/db.server";
 
 
 
-export async function loader({ request }: LoaderFunctionArgs) {
-    const session = await auth.api.getSession({ headers: request.headers });
+export async function loader({ request, params }: LoaderFunctionArgs) {
+
+    const session = await auth.api.getSession({ headers: request.headers })
+
     if (!session?.user) throw redirect("/");
 
-    const chatId = "default"; // later, this can come from params.id
-    const chat = await getChat(chatId, session.user.id);
+    if (!params.id) throw redirect("/chat"); // no chat id -- only happens on new user || visiting /chat through url rn
+
+    const chat = await getChat(params.id, session.user.id)
+
+    if (!chat) throw redirect("/chat"); // this should never happen -- but my code had bugs where this was happening
 
     return {
+
         user: session.user,
         chat,
-    };
+    }
+
 }
 
 
 export default function Chat({ loaderData }: Route.ComponentProps) {
+
     const { data, isPending } = authClient.useSession();
     const [input, setInput] = useState("");
 
@@ -112,8 +119,11 @@ export default function Chat({ loaderData }: Route.ComponentProps) {
 
                     <form
                         onSubmit={(e) => {
+
                             e.preventDefault();
-                            if (input.trim()) {
+
+                            // prevents a really annoying error, don't let the user submit while its responding
+                            if (input.trim() && (status === "ready" || status === "error")) {
                                 sendMessage({ text: input });
                                 setInput("");
                             }
@@ -128,12 +138,21 @@ export default function Chat({ loaderData }: Route.ComponentProps) {
                     </form>
                 </div>
             </div>
-        );
-    } else if (isPending) {
+        )
+
+    }
+
+    else if (isPending) {
+        //would like to add styling stuff here
         return <div>Authenticating..</div>;
-    } else {
+
+    }
+
+    else {
+
         return <Navigate to="routes/home" replace />;
     }
+
 }
 
 
