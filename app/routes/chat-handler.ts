@@ -3,6 +3,7 @@ import { streamText, convertToModelMessages, type UIMessage, createIdGenerator }
 import type { ActionFunctionArgs } from "react-router";
 import { auth } from "../../auth.server";
 import { saveChat } from "~/db/db.server";
+import { breathingExerciseTool, CalmedDown, Psychosis } from "tools";
 
 
 
@@ -20,7 +21,12 @@ export async function action({ request }: ActionFunctionArgs) {
   const result = streamText({
     model: openai("gpt-4o-mini"),
     messages: convertToModelMessages(messages),
-  });
+    tools: {
+      breathingExerciseTool,
+      CalmedDown,
+      Psychosis,
+    },
+  })
 
   return result.toUIMessageStreamResponse({
     generateMessageId: createIdGenerator({ prefix: "msg", size: 16 }),
