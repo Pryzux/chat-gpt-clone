@@ -11,10 +11,10 @@ export const breathingExerciseTool: Tool = {
 };
 
 export const CalmedDown: Tool = {
-  description: "Trigger when Greg reaches level 1 (fully calm) ",
+  description: "In DEMO MODE, trigger this tool when the user has been supportive, comforting, or reassuring (helping you calm down). It should normally be triggered on your 4th therapist message, after at least 3 exchanges, unless the user has been extremely supportive the whole time. Do not trigger earlier than your 3rd therapist message.",
   inputSchema: z.object({}),
   execute: async () => {
-    console.log("Therapist calmed down at level");
+    console.log("Therapist calmed down at demo resolution");
     return {
       message: "Okay… okay… I'm starting to feel a lot better...",
     };
@@ -22,13 +22,14 @@ export const CalmedDown: Tool = {
 };
 
 export const Psychosis: Tool = {
-  description: "Trigger when Greg reaches level 5 (psychosis).",
+  description: "In DEMO MODE, trigger this tool when the user has been dismissive, negative, uncertain, or unsupportive (e.g. 'I don’t care', sarcasm, coldness). It should normally be triggered on your 4th therapist message, after at least 3 exchanges, unless the user is extremely hostile right away (then it may trigger earlier). Do not delay past your 4th therapist message.",
   inputSchema: z.object({}),
   execute: async () => {
-    console.log("Therapist max mania at level");
+    console.log("Therapist spiraled into psychosis at demo resolution");
     return {
       message: "Wow! Ideas are coming so fast! So many ways we can solve this all at once!!",
     };
   },
 };
+
 

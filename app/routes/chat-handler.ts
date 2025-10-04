@@ -19,7 +19,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const { id, messages }: { id: string; messages: UIMessage[] } = await request.json();
 
   const result = streamText({
-    model: openai("gpt-4o-mini"),
+    model: openai("gpt-4o"),
     messages: convertToModelMessages(messages),
     tools: {
       breathingExerciseTool,

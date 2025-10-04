@@ -54,11 +54,13 @@ export default function Chat({ loaderData }: Route.ComponentProps) {
 
     if (data) {
         return (
+
             <div className="flex-col pt-5 pb-5 bg-amber-50 h-screen">
+
                 <div className="w-9/10 mx-auto pt-10">
                     <div className="relative h-165 bg-amber-100 rounded-md border border-amber-300 shadow-md p-4">
                         <ScrollArea className="h-full">
-                            {messages.map((message) => (
+                            {messages.slice(1).map((message) => (
                                 <div key={message.id} className={bubbles(message.role)}>
                                     <span className="font-semibold">
                                         {message.role === "user" ? loaderData.user.name : "AI"}:
@@ -114,8 +116,8 @@ export default function Chat({ loaderData }: Route.ComponentProps) {
                                 sendMessage({ text: input });
                                 setInput("");
                             }
-                        }}
-                    >
+                        }}>
+
                         <Input
                             className="mt-3 text-amber-900 bg-white border-amber-300 rounded-md shadow-sm placeholder:text-amber-400 placeholder:opacity-70"
                             value={input}
