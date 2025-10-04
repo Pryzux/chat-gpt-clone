@@ -1,4 +1,3 @@
-
 import { authClient } from "../auth-client"
 import { Form } from "react-router"
 import { useState } from "react"
@@ -39,8 +38,6 @@ export default function Register() {
 
     return (
 
-
-
         <div className="w-3/10 mx-auto">
             <h2 className="flex justify-center">Sign up today!</h2>
             <Form onSubmit={signUp}>
@@ -52,9 +49,6 @@ export default function Register() {
                 </div>
             </Form>
         </div>
-
-
-
 
     )
 

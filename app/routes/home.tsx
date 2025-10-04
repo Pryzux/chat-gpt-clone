@@ -1,9 +1,9 @@
 import type { Route } from "./+types/home";
 import { authClient } from "../../auth-client"
 import { Navigate } from "react-router"
-import { useState } from "react"
 import SignIn from "non-route/signIn";
 import Register from "non-route/register";
+import LoadingPage from "non-route/loading-page";
 
 
 export function meta({ }: Route.MetaArgs) {
@@ -18,17 +18,16 @@ export default function Home() {
   const { data, isPending, error } = authClient.useSession()
 
 
-  // Route to mainPage.tsx??
-  // if (data) { return <Navigate to="routes/mainPage" replace /> }
-  if (data) { return <Navigate to="routes/chat" replace /> }
+  if (data) { return <Navigate to="/chat" replace /> }
 
   //Loading
-  else if (isPending) { return <div>Signing In..</div> }
+  else if (isPending) { return <LoadingPage /> }
 
   // Route to Home Screen No Authentication
   else {
 
     return (
+
 
       <div className=" bg-amber-50 flex h-screen">
         <div className="flex flex-col flex-1">
@@ -47,7 +46,7 @@ export default function Home() {
           <div className="h-1/3 flex items-center justify-center overflow-hidden">
             <img
               className="w-full h-full object-fill pl-50 pr-90 pt-10"
-              src="./public/speech-therapy.png"
+              src="./speech-therapy.png"
               alt="Descriptive alt text"
             />
           </div>
