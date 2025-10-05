@@ -3,8 +3,8 @@ import { streamText, convertToModelMessages, type UIMessage, createIdGenerator }
 import type { ActionFunctionArgs } from "react-router";
 import { auth } from "../../auth.server";
 import { saveChat } from "~/db/db.server";
-import { breathingExerciseTool, CalmedDown, Psychosis } from "tools";
-
+import { CalmedDown, Psychosis } from "tools";
+import { MODEL_VERSION } from "wincondition";
 
 
 const openai = createOpenAI({
@@ -19,12 +19,11 @@ export async function action({ request }: ActionFunctionArgs) {
   const { id, messages }: { id: string; messages: UIMessage[] } = await request.json();
 
   const result = streamText({
-    model: openai("gpt-4o"),
+    model: openai(MODEL_VERSION),
     messages: convertToModelMessages(messages),
     tools: {
-      breathingExerciseTool,
       CalmedDown,
-      Psychosis,
+      Psychosis
     },
   })
 

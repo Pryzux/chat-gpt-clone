@@ -1,4 +1,5 @@
 export default function WinOverlay({ message }: { message?: string }) {
+
   let textColor = "text-white";
 
   if (message === "Congratulations, You Calmed Your Therapist Down!") {
@@ -11,8 +12,7 @@ export default function WinOverlay({ message }: { message?: string }) {
     <div>
       <div className="bg-black opacity-60 rounded absolute inset-0 animate-in fade-in duration-3000" />
       <h1
-        className={`${textColor} opacity-85 text-5xl font-bold drop-shadow-lg absolute inset-0 flex items-center justify-center pl-5 fade-in duration-3000 animate-pulse`}
-      >
+        className={`${textColor} opacity-85 text-5xl font-bold drop-shadow-lg absolute inset-0 flex items-center justify-center pl-5 fade-in duration-3000 animate-pulse`}>
         {message}
       </h1>
     </div>

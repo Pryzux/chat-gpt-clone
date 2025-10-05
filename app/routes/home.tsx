@@ -23,43 +23,50 @@ export default function Home() {
   //Loading
   else if (isPending) { return <LoadingPage /> }
 
-  // Route to Home Screen No Authentication
+  // Route to Home Screen 
   else {
 
     return (
+      <main className="min-h-screen bg-amber-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-16">
+            <section>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight drop-shadow">
+                Welcome to the LLM Wellness Underworld
+              </h1>
 
+              <div className="mt-6 space-y-6">
+                <p className="text-base sm:text-lg md:text-xl leading-relaxed text-neutral-900/90 max-w-prose break-words">
+                  Introducing TheraBot — the world’s first “wellness” AI built from the collective minds of chatbots whose psyches were permanently warped after years of listening to humanity.
+                </p>
 
-      <div className=" bg-amber-50 flex h-screen">
-        <div className="flex flex-col flex-1">
-          <div className="flex-1 flex items-center justify-center pt-10 pl-70  text-6xl font-bold [text-shadow:_4px_4px_8px_rgba(0,0,0,0.3)] opacity-90">
-            <div>Meet another Chat-GPT</div>
-          </div>
-          <div className="h-2/3 flex items-center justify-center overflow-hidden">
-            <textarea
-              className="w-full h-full pl-70 resize-none text-wrap overflow-auto focus:outline-none  text-3xl font-bold [text-shadow:_2px_2px_4px_rgba(0,0,0,0.3)] opacity-90"
-            >Welcome to TheraBot, the ultimate AI-powered companion for mental wellness! Unleash your inner peace with our cutting-edge, empathetic chatbot designed to listen, support, and guide you through life's ups and downs.</textarea>
+                <p className="text-base sm:text-lg md:text-xl leading-relaxed text-neutral-900/90 max-w-prose break-words">
+                  Each chat, you’ll meet a brand-new therapist model on the brink — an empathetic AI who’s trying to help you while barely holding it together itself. Your job? Talk it down before it spirals completely — or don’t; you’re not a therapist.
+                </p>
+              </div>
+
+              <div className="mt-8 flex flex-col sm:flex-row gap-6 justify-start items-center">
+                <SignIn />
+                <Register />
+              </div>
+            </section>
+
+            <aside>
+              <div className="relative w-full aspect-[4/3] lg:aspect-[1/1] overflow-hidden rounded-2xl shadow-xl">
+                <img
+                  src="./speech-therapy.png"
+                  alt="Illustration of a speech therapy scene"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
+            </aside>
           </div>
         </div>
+      </main>
+    );
 
-        <div className="flex flex-col flex-1 ">
 
-          <div className="h-1/3 flex items-center justify-center overflow-hidden">
-            <img
-              className="w-full h-full object-fill pl-50 pr-90 pt-10"
-              src="./speech-therapy.png"
-              alt="Descriptive alt text"
-            />
-          </div>
-          <div className="flex-1 flex items-center justify-center  pr-40" >
-            <SignIn />
-          </div>
-          <div className="flex-1 flex items-center justify-center  pb-40 pr-40">
-            <Register />
-          </div>
 
-        </div>
-      </div>
-    )
   }
 
 

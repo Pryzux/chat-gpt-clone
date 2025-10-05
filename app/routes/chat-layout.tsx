@@ -22,9 +22,9 @@ export default function ChatLayout() {
     const { chats } = useLoaderData<typeof loader>();
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-col md:flex-row h-screen">
             <Sidebar chats={chats} />
-            <main className="flex-1 overflow-hidden">
+            <main className="flex-1 min-w-0 min-h-0 overflow-hidden">
                 <Outlet />
             </main>
         </div>
