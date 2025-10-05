@@ -8,6 +8,13 @@
       "when": 1759182014323,
       "tag": "0000_wet_moonstone",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1759454574802,
+      "tag": "0001_hard_paper_doll",
+      "breakpoints": true
     }
   ]
 }

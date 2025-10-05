@@ -1,4 +1,3 @@
-
 import { authClient } from "../auth-client"
 import { Form } from "react-router"
 import { useState } from "react"
@@ -38,25 +37,18 @@ export default function Register() {
 
 
     return (
-
-
-
-        <div className="w-3/10 mx-auto">
-            <h2 className="flex justify-center">Sign up today!</h2>
-            <Form onSubmit={signUp}>
-                <Input placeholder="Email" type="email" className="m-1" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <Input placeholder="Password" type="password" className="m-1" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <Input placeholder="Name" type="text" className="m-1" value={name} onChange={(e) => setName(e.target.value)} />
-                <div className="flex justify-center p-3">
-                    <Button type="submit" className="border">Register</Button>
-                </div>
+        <div className="w-full sm:w-[22rem] mx-auto rounded-xl bg-white/70 backdrop-blur-sm shadow-md p-6 flex flex-col items-center text-center border border-neutral-200">
+            <h2 className="text-lg sm:text-xl font-semibold mb-4 text-neutral-800">Sign up today!</h2>
+            <Form onSubmit={signUp} className="w-full space-y-3">
+                <Input placeholder="Name" type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full" />
+                <Input placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full" />
+                <Input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full" />
+                <button type="submit" className="w-full mt-3 bg-amber-700 hover:bg-amber-800 text-white font-semibold py-2 rounded-md transition">
+                    Register
+                </button>
             </Form>
         </div>
-
-
-
-
-    )
+    );
 
 
 
