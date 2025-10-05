@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router build",
-    "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "dev": "bunx react-router dev",
+    "build": "bunx react-router build",
+    "start": "bunx react-router-serve ./build/server/index.js",
+    "typecheck": "bunx react-router typegen && tsc"
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.42",
@@ -19,6 +19,7 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@radix-ui/react-use-controllable-state": "^1.2.2",
+    "@react-router/dev": "^7.9.2",
     "@react-router/node": "^7.9.2",
     "@react-router/serve": "^7.9.2",
     "ai": "^5.0.59",
@@ -44,7 +45,6 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
-    "@react-router/dev": "^7.9.2",
     "@tailwindcss/vite": "^4.1.13",
     "@types/node": "^22",
     "@types/react": "^19.1.13",
