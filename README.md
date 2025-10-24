@@ -6,7 +6,7 @@ https://therabot.dev
 
 TheraBot is an interactive emotional roleplay simulation that turns the traditional chatbot experience on its head. Instead of you seeking therapy from an AI, **you provide emotional support to an unstable AI therapist** who has absorbed too many human emotions over the years.
 
-<img width="916" height="599" alt="Screenshot 2025-10-24 at 12 29 27 PM" src="https://github.com/user-attachments/assets/1be94bad-48ef-4d89-b064-e43c125ac129" />
+<img width="916" height="715" alt="Screenshot 2025-10-24 at 1 22 55 PM" src="https://github.com/user-attachments/assets/f70ccb8c-d336-44bf-9e04-23eb97685917" />
 
 ## Overview
 
@@ -17,7 +17,7 @@ Each conversation spawns a unique AI character - an emotionally fragile chatbot 
 
 This is not a traditional chatbot clone - it's a narrative-driven game that explores AI emotions through humor and roleplay.
 
-<img width="916" height="715" alt="Screenshot 2025-10-24 at 12 30 02 PM" src="https://github.com/user-attachments/assets/9f64e221-c7a0-4031-967c-55267096f4f7" />
+<img width="916" height="715" alt="Screenshot 2025-10-24 at 1 22 01 PM" src="https://github.com/user-attachments/assets/00ca0b39-7772-4cce-b84f-25f1e1da25ed" />
 
 ## Features
 
